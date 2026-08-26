@@ -225,8 +225,13 @@ class WriteMailBaseForm(ScheduledAtValidationMixin, MailTemplateForm):
     scheduled_at = forms.SplitDateTimeField(
         label=_('Send later'),
         required=False,
-        help_text=_('Leave empty to send immediately or queue to outbox. If set, the email will be sent at this time. Time is interpreted in the event timezone.'),
+        help_text=_('The email will be sent at this time.'),
         widget=TalkSplitDateTimePickerWidget(),
+    )
+    test_email = forms.EmailField(
+        label=_('Send test email to'),
+        required=False,
+        help_text=_('The test email is rendered with sample data and is not counted as a sent email.'),
     )
 
     def __init__(self, *args, may_skip_queue=False, source_template=None, **kwargs):
@@ -497,6 +502,20 @@ class WriteSessionMailForm(SubmissionFilterForm, WriteMailBaseForm):
             for mail in result:
                 mail.send()
         return result
+
+
+class SessionMailRecipientsForm(WriteSessionMailForm):
+    """Audience preview variant of the session mail form.
+
+    The recipient list and count are shown before the message is written, so
+    subject and text are not required here. Recipient selection itself is
+    inherited unchanged, which keeps the preview in step with the actual send.
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        for name in ('subject', 'text'):
+            self.fields.pop(name, None)
 
 
 class QueuedMailFilterForm(forms.Form):

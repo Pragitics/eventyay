@@ -485,7 +485,7 @@ class SubmissionFilterForm(forms.Form):
         self.search_fields = search_fields or (
             'code__icontains',
             'title__icontains',
-            'speakers__name__icontains',
+            'speakers__fullname__icontains',
         )
         usable_states = kwargs.pop('usable_states', None)
         initial = kwargs.pop('initial', {}) or {}

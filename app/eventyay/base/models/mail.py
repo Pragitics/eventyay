@@ -382,6 +382,11 @@ class QueuedMail(PretalxModel):
     subject = models.CharField(max_length=200, verbose_name=pgettext_lazy('email subject', 'Subject'))
     text = models.TextField(verbose_name=_('Text'))
     sent = models.DateTimeField(null=True, blank=True, verbose_name=_('Sent at'))
+    is_draft = models.BooleanField(
+        default=False,
+        verbose_name=_('Draft'),
+        help_text=_('Drafts are kept out of the outbox and are never sent until they are moved there.'),
+    )
     scheduled_at = models.DateTimeField(
         null=True,
         blank=True,
@@ -411,6 +416,7 @@ class QueuedMail(PretalxModel):
         base = edit = '{self.event.orga_urls.mail}{self.pk}/'
         delete = '{base}delete'
         send = '{base}send'
+        to_outbox = '{base}to-outbox'
         copy = '{base}copy'
 
     def __str__(self):
