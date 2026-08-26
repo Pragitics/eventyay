@@ -225,7 +225,7 @@ class WriteMailBaseForm(ScheduledAtValidationMixin, MailTemplateForm):
     scheduled_at = forms.SplitDateTimeField(
         label=_('Send later'),
         required=False,
-        help_text=_('The email will be sent at this time.'),
+        help_text=_('The email will be sent at this time in the event timezone.'),
         widget=TalkSplitDateTimePickerWidget(),
     )
     test_email = forms.EmailField(

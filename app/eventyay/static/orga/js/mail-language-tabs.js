@@ -21,7 +21,7 @@ const showLocale = (groups, tabs, code) => {
     })
     tabs.forEach((tab) => {
         const active = tab.dataset.locale === code
-        tab.classList.toggle("active", active)
+        tab.classList.toggle("is-selected", active)
         tab.setAttribute("aria-selected", active ? "true" : "false")
         tab.tabIndex = active ? 0 : -1
     })
@@ -34,7 +34,7 @@ const buildLanguageTabs = (container, groups) => {
     const tabs = locales.map((locale) => {
         const tab = document.createElement("button")
         tab.type = "button"
-        tab.className = "btn btn-link mail-language-tab"
+        tab.className = "mail-language-tab"
         tab.dataset.locale = locale.code
         tab.setAttribute("role", "tab")
         tab.textContent = locale.label

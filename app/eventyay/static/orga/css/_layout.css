@@ -1655,31 +1655,63 @@ div.mail-preview {
 }
 
 .delivery-test {
-  align-items: flex-start;
+  margin-bottom: var(--size-spacer, 1rem);
+}
+
+.delivery-test-controls {
+  --delivery-control-height: calc(1.5em + 0.75rem + 2px);
+  align-items: center;
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.delivery-test > .form-group {
-  flex: 1;
-  margin-bottom: 0;
+.delivery-test-controls > input,
+.delivery-test-controls > .form-control {
+  box-sizing: border-box;
+  flex: 1 1 12rem;
+  height: var(--delivery-control-height);
+  min-height: var(--delivery-control-height);
   min-width: 0;
+  width: auto;
 }
 
-/* btn-outline-secondary carries no border in this theme, which leaves Save
- * draft 2px shorter than every other button in the row. */
-.composer-actions > .btn {
+.delivery-test-controls > .btn {
+  align-items: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: var(--delivery-control-height);
+  justify-content: center;
+  line-height: 1.2;
+  margin: 0;
+  min-height: var(--delivery-control-height);
+  padding: 0 0.75rem;
+  white-space: nowrap;
+}
+
+/* Keep action buttons consistent: light outline, dark fill on hover. */
+.composer-actions {
+  align-items: stretch;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.composer-actions > .btn,
+.composer-send-group > .btn,
+.composer-send-group > .dropdown > summary.btn {
+  border-radius: var(--size-border-radius, 0.25rem);
   border-style: solid;
   border-width: 1px;
 }
 
-.composer-actions > .btn-outline-secondary {
-  border-color: transparent;
+.composer-actions > .btn.mr-2 {
+  margin-right: 0 !important;
 }
 
 /* Send email and its options menu read as one control: the seam between them
- * is square, the outer corners keep whatever radius the theme gives buttons,
- * and the colour is the theme's, same as every other button in the row. */
+ * is square, the outer corners keep the theme radius. */
 .composer-send-group {
   align-items: stretch;
   display: inline-flex;
@@ -1687,6 +1719,7 @@ div.mail-preview {
 
 .composer-send-group > .dropdown {
   display: flex;
+  overflow: visible;
 }
 
 .composer-send-group > .btn {
@@ -1700,11 +1733,65 @@ div.mail-preview {
 .composer-send-group > .dropdown > summary.btn {
   align-items: center;
   border-bottom-left-radius: 0;
-  border-left: 1px solid rgb(255 255 255 / 0.25);
+  border-left-width: 0;
   border-top-left-radius: 0;
   display: inline-flex;
-  /* summary carries the UA list-item colour, so the chevron needs it spelled out. */
-  color: #fff;
+  margin-left: -1px;
+}
+
+/* Open upward so the menu does not create a second page scrollbar at the
+ * bottom of the composer, and drop overflow so a three-item menu never scrolls. */
+.composer-send-group details.dropdown .dropdown-content {
+  bottom: calc(100% + 8px);
+  left: auto;
+  max-height: none;
+  overflow: visible;
+  right: 0;
+  top: auto;
+  transform: none;
+}
+
+.composer-send-group details.dropdown .dropdown-content::before {
+  bottom: -8px;
+  left: auto;
+  right: 12px;
+  top: auto;
+  border-top: 8px solid rgb(27 31 35 / 0.15);
+  border-right: 8px solid transparent;
+  border-bottom: 0;
+  border-left: 8px solid transparent;
+}
+
+.composer-send-group details.dropdown .dropdown-content::after {
+  bottom: -7px;
+  left: auto;
+  right: 13px;
+  top: auto;
+  border-top: 7px solid #fff;
+  border-right: 7px solid transparent;
+  border-bottom: 0;
+  border-left: 7px solid transparent;
+}
+
+/* Keep the standard tabular label | field row from common/_forms.css
+ * (fit-content labels pulled next to the controls). Do not force full-width
+ * left-aligned labels here — that recreates a large gap before the fields. */
+.form-with-placeholder .card-body .i18n-form-group,
+.form-with-placeholder .card-body .i18n-form-group textarea,
+.form-with-placeholder .card-body .i18n-form-group input,
+.form-with-placeholder .card-body .col-md-9 > textarea.form-control,
+.form-with-placeholder .card-body .col-md-9 > input.form-control {
+  max-width: 100%;
+  width: 100%;
+}
+
+.form-with-placeholder .card-body .col-md-9 > textarea.form-control {
+  min-height: 12rem;
+}
+
+/* Audience header actions stay the same size. */
+.card-header .btn-sm {
+  min-height: 2rem;
 }
 
 #send-confirm-dialog,
@@ -1751,22 +1838,78 @@ div.mail-preview {
   }
 }
 
+.form-with-placeholder > .card > .card-header {
+  /* Keep the header divider above language tabs / focus styles. */
+  position: relative;
+  z-index: 1;
+}
+
 #mail-language-tabs {
-  border-bottom: 1px solid var(--color-grey-lighter);
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
+  margin-bottom: 1rem;
+  padding-bottom: 3px;
+  position: relative;
+  width: 100%;
+}
+
+/* Full-width divider drawn above the tabs so a selected tab cannot cover it. */
+#mail-language-tabs::after {
+  background: var(--color-grey-light, #dee2e6);
+  bottom: 0;
+  content: "";
+  height: 1px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  z-index: 2;
 }
 
 .mail-language-tab {
-  border-bottom: 2px solid transparent;
+  appearance: none;
+  background: transparent;
+  border: 0;
   border-radius: 0;
-  padding: 6px 12px;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  margin: 0;
+  padding: 6px 12px 8px;
+  position: relative;
+  text-decoration: none;
+  z-index: 1;
+}
+
+.mail-language-tab:hover,
+.mail-language-tab:focus,
+.mail-language-tab:focus-visible,
+.mail-language-tab:active {
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  outline: none;
   text-decoration: none;
 }
 
-.mail-language-tab.active {
-  border-bottom-color: var(--color-primary);
+.mail-language-tab.is-selected,
+.mail-language-tab[aria-selected="true"] {
   font-weight: bold;
+}
+
+/* Selected marker sits just above the permanent divider. */
+.mail-language-tab.is-selected::after,
+.mail-language-tab[aria-selected="true"]::after,
+.mail-language-tab:focus-visible::after {
+  background: var(--color-primary);
+  bottom: 3px;
+  content: "";
+  height: 2px;
+  left: 8px;
+  position: absolute;
+  right: 8px;
+  z-index: 3;
 }
 
 #placeholder-drawer {
