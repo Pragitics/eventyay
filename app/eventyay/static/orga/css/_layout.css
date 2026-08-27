@@ -1751,6 +1751,17 @@ div.mail-preview {
   margin-left: -1px;
 }
 
+.composer-send-group > .dropdown > summary.btn.btn-primary {
+  border-left: 1px solid var(--color-bg);
+  color: #fff;
+}
+
+.composer-send-group > .dropdown > summary.btn.btn-primary:hover,
+.composer-send-group > .dropdown > summary.btn.btn-primary:focus {
+  background-color: var(--color-primary-hover, #0056b3);
+  color: #fff;
+}
+
 /* Open upward so the menu does not create a second page scrollbar at the
  * bottom of the composer, and drop overflow so a three-item menu never scrolls. */
 .composer-send-group details.dropdown .dropdown-content {

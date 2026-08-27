@@ -193,7 +193,7 @@
                             {% translate "Preview email" %}
                         </button>
                         <span class="composer-send-group">
-                            <button type="submit" class="btn btn-outline-info" name="action" value="send" data-confirm-send>
+                            <button type="submit" class="btn btn-primary" name="action" value="send" data-confirm-send>
                                 <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                 {% block send_button_label %}
                                     {% translate "Send email" %}
@@ -201,7 +201,7 @@
                             </button>
                             {% if form.scheduled_at %}
                             <details class="dropdown" aria-haspopup="menu" role="menu">
-                                <summary class="btn btn-outline-info" role="button" aria-label="{% translate 'More send options' %}">
+                                <summary class="btn btn-primary" role="button" aria-label="{% translate 'More send options' %}">
                                     <i class="fa fa-chevron-down" aria-hidden="true"></i>
                                 </summary>
                                 <div class="dropdown-content dropdown-content-sw">
