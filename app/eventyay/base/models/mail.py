@@ -425,7 +425,7 @@ class QueuedMail(PretalxModel):
         return f'OutboxMail(to={self.to}, subject={self.subject}, sent={sent})'
 
     def make_html(self):
-        from eventyay.base.templatetags.rich_text import render_markdown_abslinks
+        from eventyay.base.templatetags.rich_text import compile_email_body
 
         event = getattr(self, 'event', None)
         sig = None
@@ -436,7 +436,7 @@ class QueuedMail(PretalxModel):
             )
             if sig and sig.strip().startswith('-- '):
                 sig = sig.strip()[3:].strip()
-        body_md = render_markdown_abslinks(self.text)
+        body_md = compile_email_body(self.text)
         html_context = {
             'body': body_md,
             'event': event,

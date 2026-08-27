@@ -13,15 +13,23 @@ const getLocales = (group) => {
     return locales
 }
 
+const toggleLocaleField = (input, hidden) => {
+    input.classList.toggle("d-none", hidden)
+    const wrapper = input.closest(".tiptap-wrapper")
+    if (wrapper) {
+        wrapper.classList.toggle("d-none", hidden)
+    }
+}
+
 const showLocale = (groups, tabs, code) => {
     groups.forEach((group) => {
         group.querySelectorAll(LANGUAGE_INPUT_SELECTOR).forEach((input) => {
-            input.classList.toggle("d-none", input.lang !== code)
+            toggleLocaleField(input, input.lang !== code)
         })
     })
     tabs.forEach((tab) => {
         const active = tab.dataset.locale === code
-        tab.classList.toggle("is-selected", active)
+        tab.classList.toggle("active", active)
         tab.setAttribute("aria-selected", active ? "true" : "false")
         tab.tabIndex = active ? 0 : -1
     })
@@ -34,7 +42,7 @@ const buildLanguageTabs = (container, groups) => {
     const tabs = locales.map((locale) => {
         const tab = document.createElement("button")
         tab.type = "button"
-        tab.className = "mail-language-tab"
+        tab.className = "btn btn-link mail-language-tab"
         tab.dataset.locale = locale.code
         tab.setAttribute("role", "tab")
         tab.textContent = locale.label

@@ -51,10 +51,10 @@
   {% endif %}
   <div class="composer-filters">
     {{ form.state.as_field_group }}
-    {% if form.submission_type %}{{ form.submission_type.as_field_group }}{% endif %}
-    {% if form.track %}{{ form.track.as_field_group }}{% endif %}
-    {% if form.content_locale %}{{ form.content_locale.as_field_group }}{% endif %}
-    {% if form.tags %}{{ form.tags.as_field_group }}{% endif %}
+    {{ form.submission_type.as_field_group }}
+    {{ form.track.as_field_group }}
+    {{ form.content_locale.as_field_group }}
+    {{ form.tags.as_field_group }}
     {{ form.speakers.as_field_group }}
     {{ form.submissions.as_field_group }}
   </div>

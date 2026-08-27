@@ -1609,6 +1609,18 @@ div.mail-preview {
 }
 
 .composer-filters .form-group.row > label,
+.composer-filters .form-group.row > label.col-form-label {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 0;
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.composer-filters .form-group.row > .col-md-9,
 .composer-filters .form-group.row > div {
   flex: none;
   max-width: 100%;
@@ -1785,7 +1797,18 @@ div.mail-preview {
   width: 100%;
 }
 
-.form-with-placeholder .card-body .col-md-9 > textarea.form-control {
+.form-with-placeholder .card-body .col-md-9 > textarea.form-control:not([data-tiptap-profile]) {
+  min-height: 12rem;
+}
+
+.form-with-placeholder .card-body .col-md-9 .tiptap-wrapper,
+.form-with-placeholder .card-body .col-md-9 .tiptap-editor-content,
+.form-with-placeholder .card-body .col-md-9 .tiptap-prosemirror {
+  max-width: 100%;
+  width: 100%;
+}
+
+.form-with-placeholder .card-body .col-md-9 .tiptap-editor-content {
   min-height: 12rem;
 }
 
@@ -1845,41 +1868,21 @@ div.mail-preview {
 }
 
 #mail-language-tabs {
+  border-bottom: 1px solid var(--color-grey-lighter);
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin-bottom: 1rem;
-  padding-bottom: 3px;
-  position: relative;
-  width: 100%;
-}
-
-/* Full-width divider drawn above the tabs so a selected tab cannot cover it. */
-#mail-language-tabs::after {
-  background: var(--color-grey-light, #dee2e6);
-  bottom: 0;
-  content: "";
-  height: 1px;
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  z-index: 2;
 }
 
 .mail-language-tab {
-  appearance: none;
-  background: transparent;
-  border: 0;
+  border-bottom: 2px solid transparent;
   border-radius: 0;
+  box-shadow: none;
   color: inherit;
-  cursor: pointer;
-  font: inherit;
-  margin: 0;
-  padding: 6px 12px 8px;
-  position: relative;
+  margin-bottom: -1px;
+  padding: 6px 12px;
   text-decoration: none;
-  z-index: 1;
 }
 
 .mail-language-tab:hover,
@@ -1893,23 +1896,10 @@ div.mail-preview {
   text-decoration: none;
 }
 
-.mail-language-tab.is-selected,
+.mail-language-tab.active,
 .mail-language-tab[aria-selected="true"] {
+  border-bottom-color: var(--color-primary);
   font-weight: bold;
-}
-
-/* Selected marker sits just above the permanent divider. */
-.mail-language-tab.is-selected::after,
-.mail-language-tab[aria-selected="true"]::after,
-.mail-language-tab:focus-visible::after {
-  background: var(--color-primary);
-  bottom: 3px;
-  content: "";
-  height: 2px;
-  left: 8px;
-  position: absolute;
-  right: 8px;
-  z-index: 3;
 }
 
 #placeholder-drawer {

@@ -439,7 +439,7 @@ class ComposeMailBaseView(EventPermissionRequired, FormView):
             )
             return self.render_to_response(self.get_context_data(form=form))
 
-        from eventyay.base.templatetags.rich_text import render_markdown_abslinks
+        from eventyay.base.templatetags.rich_text import compile_email_body
 
         event = self.request.event
         locale = event.locale
@@ -456,7 +456,7 @@ class ComposeMailBaseView(EventPermissionRequired, FormView):
                 'to': [address],
                 'subject': subject,
                 'body': text,
-                'html': render_markdown_abslinks(text),
+                'html': compile_email_body(text),
                 'reply_to': form.cleaned_data.get('reply_to') or '',
                 'event': event.pk,
             }
@@ -495,7 +495,7 @@ class ComposeMailBaseView(EventPermissionRequired, FormView):
                     _('There are no recipients matching this selection.'),
                 )
                 return self.get(self.request, *self.args, **self.kwargs)
-            from eventyay.base.templatetags.rich_text import render_markdown_abslinks
+            from eventyay.base.templatetags.rich_text import compile_email_body
 
             for locale in self.request.event.locales:
                 with language(locale):
@@ -509,7 +509,7 @@ class ComposeMailBaseView(EventPermissionRequired, FormView):
                     subject = nh3.clean(form.cleaned_data['subject'].localize(locale), tags=set())
                     preview_subject = get_prefixed_subject(self.request.event, subject.format_map(context_dict))
                     message = form.cleaned_data['text'].localize(locale)
-                    preview_text = render_markdown_abslinks(message.format_map(context_dict))
+                    preview_text = compile_email_body(message.format_map(context_dict))
                     self.output[locale] = {
                         'subject': _('Subject: {subject}').format(subject=preview_subject),
                         'html': preview_text,
